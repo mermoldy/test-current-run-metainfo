@@ -1,6 +1,4 @@
-provider "scalr" {
-  token = ""
-}
+provider "scalr" {}
 
 data "scalr_current_run" "current" {}
 locals {
