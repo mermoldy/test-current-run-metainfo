@@ -1,10 +1,16 @@
-
-
-provider "scalr" {}
+provider "scalr" {
+  token = ""
+}
 
 data "scalr_current_run" "current" {}
 locals {
   run = data.scalr_current_run.current
+}
+
+resource "null_resource" "trigger" {
+  triggers = {
+    always_run = "${timestamp()}"
+  }
 }
 
 output "id" {
@@ -20,26 +26,23 @@ output "is_dry" {
   value = local.run.is_dry
 }
 output "workspace_name" {
-  value = local.run.workspace[0].name
+  value = local.run.workspace_name
 }
-output "workspace_auto_apply" {
-  value = local.run.workspace[0].auto_apply
-}
-output "workspace_working_directory" {
-  value = local.run.workspace[0].working_directory
+output "environment_id" {
+  value = local.run.environment_id
 }
 output "vcs_branch" {
-  value = local.run.vcs[0].branch
+  value = local.run.vcs != null ? local.run.vcs[0].branch : null
 }
 output "vcs_repository" {
-  value = local.run.vcs[0].repository_id
+  value = local.run.vcs != null ? local.run.vcs[0].repository_id : null
 }
 output "vcs_commit_sha" {
-  value = local.run.vcs[0].commit[0].sha
+  value = local.run.vcs != null ? local.run.vcs[0].commit[0].sha : null
 }
 output "vcs_commit_message" {
-  value = local.run.vcs[0].commit[0].message
+  value = local.run.vcs != null ? local.run.vcs[0].commit[0].message : null
 }
 output "vcs_commit_author" {
-  value = local.run.vcs[0].commit[0].author.username
+  value = local.run.vcs != null ? local.run.vcs[0].commit[0].author.username : null
 }
