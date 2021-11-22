@@ -7,7 +7,7 @@ terraform {
     }
   }
 }
-resource "null_resource" "trigger" {
+resource "null_resource" "trigger4" {
   triggers = {
     always_run = "${timestamp()}"
   }
